@@ -379,11 +379,11 @@ export default function StarscapeLanding() {
         {/* Footer */}
         <footer className="container mx-auto px-6 py-12 mt-32 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-gray-500 text-sm">
-            <p>© 2026 Starscape Adventures. All rights reserved.</p>
+            <p>© 2026 Zytronium. All rights reserved.</p>
             <div className="flex gap-8">
-              <a href="#" className="hover:text-yellow-400 transition-colors">GitHub</a>
-              <a href="#" className="hover:text-yellow-400 transition-colors">Discord</a>
-              <a href="#" className="hover:text-yellow-400 transition-colors">Documentation</a>
+              <a href="https://github.com/Zytronium/starscape_text_adventure" className="hover:text-yellow-400 transition-colors">GitHub</a>
+              <a href="https://discord.gg/nMXxW5xVM4" className="hover:text-yellow-400 transition-colors">Discord</a>
+              <a href="https://stt.gg/2BWGQPa9" className="hover:text-yellow-400 transition-colors">Stoat</a>
             </div>
           </div>
         </footer>
