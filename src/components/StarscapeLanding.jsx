@@ -258,9 +258,14 @@ export default function StarscapeLanding() {
           <nav className="flex justify-between items-center">
             <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
               <img
+                src="/stratos.png"
+                alt="Stratos"
+                className="max-h-8 md:h-10 w-auto md:hidden drop-shadow-[0_0_20px_rgba(251,191,36,0.6)] hover:drop-shadow-[0_0_30px_rgba(251,191,36,0.8)] transition-all duration-300"
+              />
+              <img
                 src="/logo.png"
-                alt="Starscape Logo"
-                className="h-6 md:h-8 w-auto drop-shadow-[0_0_20px_rgba(251,191,36,0.6)] hover:drop-shadow-[0_0_30px_rgba(251,191,36,0.8)] transition-all duration-300"
+                alt="Starscape"
+                className="max-h-6 md:h-8 w-auto hidden md:block drop-shadow-[0_0_20px_rgba(251,191,36,0.6)] hover:drop-shadow-[0_0_30px_rgba(251,191,36,0.8)] transition-all duration-300"
               />
             </div>
             <div className={`flex gap-8 transition-all duration-1000 delay-200 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
