@@ -92,7 +92,7 @@ export default function StarscapeLanding() {
 
     // Animation loop
     const animate = () => {
-      ctx.fillStyle = 'rgba(5, 5, 15, 0.1)';
+      ctx.fillStyle = 'rgba(5, 5, 15, 1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Draw stars
