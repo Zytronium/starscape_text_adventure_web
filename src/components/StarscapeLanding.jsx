@@ -348,7 +348,7 @@ export default function StarscapeLanding() {
               <div className="group p-8 rounded-xl bg-gradient-to-b from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 hover:border-red-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(239,68,68,0.2)]">
                 <h3 className="text-xl font-bold mb-3 text-red-400">Immersive Gameplay</h3>
                 <p className="text-gray-400 leading-relaxed">
-                  The game includes immersive animations and ascii art displays make you feel immersed in the game like the real thing.
+                  The game includes immersive ascii animations and dynamic background music that make you feel immersed in the game like the real thing.
                 </p>
               </div>
             </div>
