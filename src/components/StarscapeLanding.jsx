@@ -7,6 +7,7 @@ export default function StarscapeLanding() {
   const [mounted, setMounted] = useState(false);
   const [version, setVersion] = useState('Loading...');
   const [userOS, setUserOS] = useState('unknown');
+  const [expandedPlatforms, setExpandedPlatforms] = useState({});
 
   // Fetch version code
   useEffect(() => {
@@ -156,12 +157,71 @@ export default function StarscapeLanding() {
     };
   }, []);
 
+  const CDN = 'https://cdn.zytronium.dev/starscape_text_adventure';
+
+  const platformUrls = {
+    windows: {
+      installer: `${CDN}/installer/windows/starscape-installer.exe`,
+      app: `${CDN}/download/windows/starscape_text_adventure.exe`,
+    },
+    linux: {
+      installer: `${CDN}/installer/linux/starscape-installer`,
+      app: `${CDN}/download/linux/starscape_text_adventure`,
+    },
+  };
+
+  const expandPlatform = (platform) => {
+    setExpandedPlatforms(prev => ({ ...prev, [platform]: true }));
+  };
+
+  // Expanded inline choice for the primary (hero) download button
+  const renderPrimaryChoice = (platform, label) => (
+    <div className="flex flex-col items-center gap-4">
+      <p className="text-sm text-gray-400 uppercase tracking-widest">Choose download type for {label}</p>
+      <div className="flex gap-4 flex-wrap justify-center">
+        {/* Installer — recommended */}
+        <a href={platformUrls[platform].installer} download>
+          <button className="group relative px-10 py-5 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-lg font-bold text-base tracking-wide overflow-hidden transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-[0_0_40px_rgba(251,191,36,0.6)] active:scale-95">
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative flex flex-col items-center gap-1">
+              <span className="flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                INSTALLER
+              </span>
+              <span className="text-xs font-normal opacity-80 tracking-normal">Recommended</span>
+            </span>
+          </button>
+        </a>
+        {/* App — secondary */}
+        <a href={platformUrls[platform].app} download>
+          <button className="group relative px-10 py-5 bg-white/5 hover:bg-white/10 border border-white/30 hover:border-yellow-500/60 rounded-lg font-bold text-base tracking-wide overflow-hidden transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-[0_0_30px_rgba(251,191,36,0.3)] active:scale-95">
+            <span className="flex flex-col items-center gap-1">
+              <span className="flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                APP ONLY
+              </span>
+              <span className="text-xs font-normal opacity-60 tracking-normal">Standalone executable</span>
+            </span>
+          </button>
+        </a>
+      </div>
+    </div>
+  );
+
   const getPrimaryDownloadButton = () => {
     switch (userOS) {
       case 'windows':
-        return (
-          <a href="https://cdn.zytronium.dev/starscape_text_adventure/download/windows/starscape_text_adventure.exe" download>
-            <button className="group relative px-12 py-6 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-lg font-bold text-lg tracking-wide overflow-hidden transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-[0_0_40px_rgba(251,191,36,0.6)] active:scale-95">
+        return expandedPlatforms['windows']
+          ? renderPrimaryChoice('windows', 'Windows')
+          : (
+            <button
+              onClick={() => expandPlatform('windows')}
+              className="group relative px-12 py-6 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-lg font-bold text-lg tracking-wide overflow-hidden transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-[0_0_40px_rgba(251,191,36,0.6)] active:scale-95"
+            >
               <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative flex items-center gap-3">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,12 +230,15 @@ export default function StarscapeLanding() {
                 DOWNLOAD FOR WINDOWS
               </span>
             </button>
-          </a>
-        );
+          );
       case 'linux':
-        return (
-          <a href="https://cdn.zytronium.dev/starscape_text_adventure/download/linux/starscape_text_adventure" download>
-            <button className="group relative px-12 py-6 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-lg font-bold text-lg tracking-wide overflow-hidden transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-[0_0_40px_rgba(251,191,36,0.6)] active:scale-95">
+        return expandedPlatforms['linux']
+          ? renderPrimaryChoice('linux', 'Linux')
+          : (
+            <button
+              onClick={() => expandPlatform('linux')}
+              className="group relative px-12 py-6 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-lg font-bold text-lg tracking-wide overflow-hidden transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-[0_0_40px_rgba(251,191,36,0.6)] active:scale-95"
+            >
               <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative flex items-center gap-3">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,8 +247,7 @@ export default function StarscapeLanding() {
                 DOWNLOAD FOR LINUX
               </span>
             </button>
-          </a>
-        );
+          );
       default:
         return (
           <a href="https://github.com/Zytronium/starscape_text_adventure/archive/refs/heads/master.zip" download>
@@ -208,21 +270,57 @@ export default function StarscapeLanding() {
 
     if (userOS !== 'windows') {
       downloads.push(
-        <a key="windows" href="https://cdn.zytronium.dev/starscape_text_adventure/download/windows/starscape_text_adventure.exe" download>
-          <button className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-yellow-500/50 cursor-pointer rounded-lg text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.3)]">
+        expandedPlatforms['windows-sec'] ? (
+          <div key="windows" className="flex gap-2 items-center flex-wrap justify-center">
+            <span className="text-xs text-gray-500 mr-1">Windows:</span>
+            <a href={platformUrls['windows'].installer} download>
+              <button className="px-4 py-2 bg-gradient-to-r from-yellow-500/80 to-orange-600/80 hover:from-yellow-500 hover:to-orange-600 border border-yellow-500/40 cursor-pointer rounded-lg text-xs font-bold transition-all duration-300 hover:shadow-[0_0_16px_rgba(251,191,36,0.4)]">
+                Installer <span className="opacity-70 font-normal">(rec.)</span>
+              </button>
+            </a>
+            <a href={platformUrls['windows'].app} download>
+              <button className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-yellow-500/50 cursor-pointer rounded-lg text-xs transition-all duration-300 hover:shadow-[0_0_16px_rgba(251,191,36,0.3)]">
+                App Only
+              </button>
+            </a>
+          </div>
+        ) : (
+          <button
+            key="windows"
+            onClick={() => setExpandedPlatforms(prev => ({ ...prev, 'windows-sec': true }))}
+            className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-yellow-500/50 cursor-pointer rounded-lg text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.3)]"
+          >
             Windows
           </button>
-        </a>
+        )
       );
     }
 
     if (userOS !== 'linux') {
       downloads.push(
-        <a key="linux" href="https://cdn.zytronium.dev/starscape_text_adventure/download/linux/starscape_text_adventure" download>
-          <button className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-yellow-500/50 cursor-pointer rounded-lg text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.3)]">
+        expandedPlatforms['linux-sec'] ? (
+          <div key="linux" className="flex gap-2 items-center flex-wrap justify-center">
+            <span className="text-xs text-gray-500 mr-1">Linux:</span>
+            <a href={platformUrls['linux'].installer} download>
+              <button className="px-4 py-2 bg-gradient-to-r from-yellow-500/80 to-orange-600/80 hover:from-yellow-500 hover:to-orange-600 border border-yellow-500/40 cursor-pointer rounded-lg text-xs font-bold transition-all duration-300 hover:shadow-[0_0_16px_rgba(251,191,36,0.4)]">
+                Installer <span className="opacity-70 font-normal">(rec.)</span>
+              </button>
+            </a>
+            <a href={platformUrls['linux'].app} download>
+              <button className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-yellow-500/50 cursor-pointer rounded-lg text-xs transition-all duration-300 hover:shadow-[0_0_16px_rgba(251,191,36,0.3)]">
+                App Only
+              </button>
+            </a>
+          </div>
+        ) : (
+          <button
+            key="linux"
+            onClick={() => setExpandedPlatforms(prev => ({ ...prev, 'linux-sec': true }))}
+            className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-yellow-500/50 cursor-pointer rounded-lg text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.3)]"
+          >
             Linux
           </button>
-        </a>
+        )
       );
     }
 
